@@ -6,6 +6,6 @@ namespace openVote.VotingMachine.DataAccess.Api
 {
 	public interface IBallotLoader
 	{
-		Task<List<Ballot>> LoadBallotsAsync();
+		List<Ballot> LoadBallots();
 	}
 }

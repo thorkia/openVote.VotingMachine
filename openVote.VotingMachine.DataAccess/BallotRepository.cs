@@ -16,7 +16,7 @@ namespace openVote.VotingMachine.DataAccess
 			{
 				if (_ballots == null)
 				{
-					_ballots = _loader.LoadBallotsAsync().Result;
+					_ballots = _loader.LoadBallots();
 				}
 
 				return _ballots.AsEnumerable();

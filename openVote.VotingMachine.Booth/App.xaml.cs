@@ -5,9 +5,14 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using openVote.VotingMachine.Booth.Database;
+using openVote.VotingMachine.Booth.Pages;
+using openVote.VotingMachine.Booth.PageViewModels;
+using openVote.VotingMachine.DataAccess;
+using openVote.VotingMachine.DataAccess.Api;
 using SQLite.Net;
-using tosscobbleSoftware.VotingMachine.Booth;
 
 namespace openVote.VotingMachine.Booth
 {
@@ -24,7 +29,18 @@ namespace openVote.VotingMachine.Booth
 		{
 			ServiceLocator.SetLocatorProvider( () => SimpleIoc.Default);
 
+			var nav = new NavigationService();			
+			SimpleIoc.Default.Register<INavigationService>(() => nav);
+			nav.Configure("PlaceVote", typeof(PlaceVotePage));
+			//TODO: Configure Navigation Service
+			//Add Vote Screen
+			//Add Confirmation Screen
+
 			SimpleIoc.Default.Register<SQLiteConnection>( () => Database.Database.Connection);
+			SimpleIoc.Default.Register<IBallotLoader>( () => new TestBallotLoader() );
+			SimpleIoc.Default.Register<BallotRepository>();
+
+			SimpleIoc.Default.Register<PlaceVoteViewModel>();
 
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
