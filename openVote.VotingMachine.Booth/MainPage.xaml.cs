@@ -17,6 +17,10 @@ namespace openVote.VotingMachine.Booth
 			this.InitializeComponent();
 		}
 
+
+		//TODO: Clean this up.  Make navigation make more sense.  Send a null value for the first parameter
+		//Then add code to handle passing the ballot and vote choices around by passing the needed data to the system.
+		//Create a way to "next" to go the next ballot with out needing to +1 the index
 		private void NextNavigationButton(object sender, RoutedEventArgs e)
 		{
 			var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();

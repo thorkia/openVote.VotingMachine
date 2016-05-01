@@ -31,10 +31,12 @@ namespace openVote.VotingMachine.Booth
 
 			var nav = new NavigationService();			
 			SimpleIoc.Default.Register<INavigationService>(() => nav);
-			nav.Configure("PlaceVote", typeof(PlaceVotePage));
+
 			//TODO: Configure Navigation Service
 			//Add Vote Screen
 			//Add Confirmation Screen
+			nav.Configure("PlaceVote", typeof(PlaceVotePage));
+			
 
 			SimpleIoc.Default.Register<SQLiteConnection>( () => Database.Database.Connection);
 			SimpleIoc.Default.Register<IBallotLoader>( () => new TestBallotLoader() );

@@ -16,6 +16,7 @@ namespace openVote.VotingMachine.Booth.Database
 			return new List<Ballot>()
 			{
 				new Ballot() { Id =1, Title = "test 1", Description = "Figure it out!", Choices = new List<string>() { "A", "B", "Longer Name", "Only Four This time" }},
+				new Ballot() { Id =2, Title = "test 2", Description = "Figure it out!", Choices = new List<string>() { "Android", "iOS", "Windows Mobile", "Blackberry" }},
 			};
 		}
 	}

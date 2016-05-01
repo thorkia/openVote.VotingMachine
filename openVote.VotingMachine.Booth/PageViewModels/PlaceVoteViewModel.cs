@@ -5,7 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using GalaSoft.MvvmLight.Views;
+using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.DataAccess;
 using openVote.VotingMachine.DataAccess.Api;
 using openVote.VotingMachine.DataAccess.Models;
@@ -15,11 +18,15 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 	public class PlaceVoteViewModel : ViewModelBase
 	{
 		private static IEnumerable<Ballot> _ballots;
+
+
 		private BallotRepository _ballotLoader;
 
 		private ObservableCollection<string> _choices = new ObservableCollection<string>();
 		private string _selectedChoice = null;
 		private Ballot _currentBallot;
+
+		private RelayCommand _nextCommand;
 
 		public string Title => _currentBallot?.Title;
 		public string Description => _currentBallot?.Description;
@@ -35,6 +42,20 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 			set
 			{
 				Set(() => SelectedChoice, ref _selectedChoice, value);
+			}
+		}
+
+		public RelayCommand NextCommand
+		{
+			get
+			{
+				return _nextCommand
+							 ?? (_nextCommand = new RelayCommand(
+									 () =>
+									 {
+										 var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
+										 navigationService.NavigateTo("PlaceVote", _currentBallot.Id + 1);
+									 }));
 			}
 		}
 

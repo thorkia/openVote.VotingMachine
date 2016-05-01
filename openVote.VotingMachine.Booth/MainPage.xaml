@@ -15,32 +15,61 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
     
-    <TextBlock HorizontalAlignment="Center"
-               FontSize="40"
-               Grid.Row="0">openVote <Run Text="{Binding Source={StaticResource AssemblyFunctions}, Path=Version}"></Run></TextBlock>
-
-    <!--Space Row-->
-    <TextBlock FontSize="20"
-               Grid.Row="1"/>
+    <StackPanel Orientation="Vertical"
+                Margin="0 0 0 20"
+                Grid.Row="0">
+      <TextBlock HorizontalAlignment="Center"
+                 FontSize="40">Welcome to openVote</TextBlock>
+      <TextBlock HorizontalAlignment="Center"
+                 FontSize="20">Version <Run Text="{Binding Source={StaticResource AssemblyFunctions}, Path=Version}" /></TextBlock>
+    </StackPanel>
     
-    <TextBlock HorizontalAlignment="Center"
-               FontSize="20"
-               Grid.Row="2">Installed On <Run Text="{Binding Source={StaticResource AssemblyFunctions}, Path=InstalledDate}"></Run></TextBlock>
+    <!--TODO: Add more information about the poll location -->
 
-    <TextBlock HorizontalAlignment="Center"
-               FontSize="20"
-               Grid.Row="3">Secured <Run Text="{Binding Source={StaticResource AssemblyFunctions}, Path=Secured}"></Run></TextBlock>
-    
+    <Grid Grid.Row="1"
+          HorizontalAlignment="Center">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+      
+      <TextBlock Grid.Row="0"
+                 Grid.Column="0"
+                 FontSize="20"
+                 HorizontalAlignment="Right"
+                 Margin="0 0 5 0"
+                 Text="Installed On: " />
+      <TextBlock Grid.Row="0"
+                 Grid.Column="1"
+                 FontSize="20"
+                 HorizontalAlignment="Left"
+                 Text="{Binding Source={StaticResource AssemblyFunctions}, Path=InstalledDate}" />
+
+      <TextBlock Grid.Row="1"
+                 Grid.Column="0"
+                 FontSize="20"
+                 HorizontalAlignment="Right"
+                 Margin="0 0 5 0"
+                 Text="Secured: " />
+      <TextBlock Grid.Row="1"
+                 Grid.Column="1"
+                 FontSize="20"
+                 HorizontalAlignment="Left"
+                 Text="{Binding Source={StaticResource AssemblyFunctions}, Path=Secured}" />
+    </Grid>
+   
     <StackPanel Orientation="Horizontal"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Right"
                 Margin="10"
-                Grid.Row="4">
+                Grid.Row="2">
       <Button Click="NextNavigationButton">Next -></Button>
     </StackPanel>
   </Grid>
