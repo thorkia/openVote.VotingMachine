@@ -6,9 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
+using openVote.VotingMachine.Booth.Events;
+using openVote.VotingMachine.Booth.States;
 using openVote.VotingMachine.DataAccess;
 using openVote.VotingMachine.DataAccess.Api;
 using openVote.VotingMachine.DataAccess.Models;
@@ -17,10 +20,7 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 {
 	public class PlaceVoteViewModel : ViewModelBase
 	{
-		private static IEnumerable<Ballot> _ballots;
-
-
-		private BallotRepository _ballotLoader;
+		private VoteState _voteState;
 
 		private ObservableCollection<string> _choices = new ObservableCollection<string>();
 		private string _selectedChoice = null;
@@ -53,27 +53,18 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_nextCommand = new RelayCommand(
 									 () =>
 									 {
-										 var navigationService = ServiceLocator.Current.GetInstance<INavigationService>();
-										 navigationService.NavigateTo("PlaceVote", _currentBallot.Id + 1);
+										 _voteState.Choice = SelectedChoice;
+										 Messenger.Default.Send<NextEvent>( new NextEvent());										 
 									 }));
 			}
 		}
 
-		public PlaceVoteViewModel(BallotRepository ballotRepository)
+
+		public void SetCurrentBallot(VoteState voteState)
 		{
-			_ballotLoader = ballotRepository;			
-		}
-
-		public void SetCurrentBallot(int ballotId)
-		{			
-			if (_ballots == null)
-			{
-				_ballots = _ballotLoader.Ballots.ToList();
-			}
-
-			//Get the first Ballot with the correct Id, or the first ballot present
-			_currentBallot = _ballots.FirstOrDefault(x => x.Id == ballotId) ?? _ballots.First();
-
+			_voteState = voteState;
+			_currentBallot = voteState.Ballot;		
+			
 			RaisePropertyChanged(() => Title);
 			RaisePropertyChanged(() => Description);
 			SelectedChoice = null;

@@ -5,9 +5,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
+using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.Database;
+using openVote.VotingMachine.Booth.Events;
 using openVote.VotingMachine.Booth.Pages;
 using openVote.VotingMachine.Booth.PageViewModels;
 using openVote.VotingMachine.DataAccess;
@@ -29,24 +31,37 @@ namespace openVote.VotingMachine.Booth
 		{
 			ServiceLocator.SetLocatorProvider( () => SimpleIoc.Default);
 
-			var nav = new NavigationService();			
+			var nav = new NavigationService();
 			SimpleIoc.Default.Register<INavigationService>(() => nav);
 
-			//TODO: Configure Navigation Service
-			//Add Vote Screen
-			//Add Confirmation Screen
-			nav.Configure("PlaceVote", typeof(PlaceVotePage));
-			
-
-			SimpleIoc.Default.Register<SQLiteConnection>( () => Database.Database.Connection);
-			SimpleIoc.Default.Register<IBallotLoader>( () => new TestBallotLoader() );
-			SimpleIoc.Default.Register<BallotRepository>();
-
-			SimpleIoc.Default.Register<PlaceVoteViewModel>();
+			RegisterPages(nav);
+			RegisterServices();
+			RegisterViewModels();
 
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
 		}
+
+		private void RegisterPages(NavigationService nav)
+		{
+			nav.Configure("Title", typeof(MainPage));
+			nav.Configure("PlaceVote", typeof(PlaceVotePage));
+		}
+
+		private void RegisterServices()
+		{
+			SimpleIoc.Default.Register<SQLiteConnection>(() => Database.Database.Connection);
+			SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
+			SimpleIoc.Default.Register<BallotRepository>();
+			SimpleIoc.Default.Register<StateManager>(true);
+		}
+
+		private void RegisterViewModels()
+		{			
+			SimpleIoc.Default.Register<PlaceVoteViewModel>();
+		}
+
+
 
 		/// <summary>
 		/// Invoked when the application is launched normally by the end user.  Other entry points

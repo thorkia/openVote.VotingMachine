@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.PageViewModels;
+using openVote.VotingMachine.Booth.States;
+using openVote.VotingMachine.DataAccess.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -30,12 +32,12 @@ namespace openVote.VotingMachine.Booth.Pages
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{
-			//TODO: e.Parameter will be the Id of the ballot to navigate to.  If not provided, it will select the first
-
+		{			
 			var viewModel = ServiceLocator.Current.GetInstance<PlaceVoteViewModel>();
 			DataContext = viewModel;
-			viewModel.SetCurrentBallot( (int)e.Parameter);
+
+			//TODO: Change this to use the data sent in the navigation - it will include the the ballot
+			viewModel.SetCurrentBallot((VoteState)e.Parameter);
 
 			base.OnNavigatedTo(e);
 		}
