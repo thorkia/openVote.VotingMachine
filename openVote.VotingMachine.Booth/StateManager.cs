@@ -85,9 +85,8 @@ namespace openVote.VotingMachine.Booth
 				var voteState = (ConfirmVoteState)_currentState as ConfirmVoteState;
 
 				//If the vote has been confirmed, move to the next ballot
-				if (voteState.Confirmed == true)
+				if (voteState.Confirmed)
 				{
-					//TODO: Store vote here
 					_votes.Add(CreateVoteFromConfirmation(voteState));
 					_ballotLocation++;					
 				}
@@ -97,7 +96,7 @@ namespace openVote.VotingMachine.Booth
 					return new VoteState(_ballots[_ballotLocation]);
 				}
 				
-				//TODO: suammary state - then back to title
+				//TODO: sammary state - then back to title
 				return GetStartState();
 			}
 
@@ -106,7 +105,6 @@ namespace openVote.VotingMachine.Booth
 
 		private IState GetStartState()
 		{
-			//TODO: Save all the votes?!?
 			var saved = _votes.TrueForAll( v => _voteRepository.Save(v));
 			if (!saved)
 			{
@@ -115,8 +113,7 @@ namespace openVote.VotingMachine.Booth
 			_votes.Clear();
 			return _initialState;
 		}
-
-		//TODO: Pass parameters into here - the current vote, etc
+		
 		private void NavigateToStatePage()
 		{
 			_navigationService.NavigateTo(_currentState.PageName, _currentState);

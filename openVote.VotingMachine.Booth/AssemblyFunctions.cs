@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.UI.Xaml;
 
 namespace openVote.VotingMachine.Booth
 {
@@ -33,14 +34,14 @@ namespace openVote.VotingMachine.Booth
 			}
 		}
 
-		//TODO: Localize this - get the thread locale and adjust
 		public static string InstalledDate
 		{
 			get
 			{
 				Package package = Package.Current;
 
-				return package.InstalledDate.ToLocalTime().Date.ToString("D");
+				var culture = CultureInfoHelper.GetCurrentCulture();
+				return package.InstalledDate.ToLocalTime().Date.ToString("D", culture);
 			}
 		}
 	}

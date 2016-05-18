@@ -98,6 +98,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="AssemblyFunctions.cs" />
+    <Compile Include="CultureHelper.cs" />
     <Compile Include="Database\TestBallotLoader.cs" />
     <Compile Include="Database\SqliteConnection.cs" />
     <Compile Include="Events\NextStateEvent.cs" />
