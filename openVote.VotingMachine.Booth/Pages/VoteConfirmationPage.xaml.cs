@@ -15,28 +15,26 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.PageViewModels;
 using openVote.VotingMachine.Booth.States;
-using openVote.VotingMachine.DataAccess.Models;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace openVote.VotingMachine.Booth.Pages
 {
 	/// <summary>
 	/// An empty page that can be used on its own or navigated to within a Frame.
 	/// </summary>
-	public sealed partial class PlaceVotePage : Page
+	public sealed partial class VoteConfirmationPage : Page
 	{
-		public PlaceVotePage()
+		public VoteConfirmationPage()
 		{
 			this.InitializeComponent();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{			
-			var viewModel = ServiceLocator.Current.GetInstance<PlaceVoteViewModel>();
+		{
+			var viewModel = ServiceLocator.Current.GetInstance<ConfirmVoteViewModel>();
 			DataContext = viewModel;
 			
-			viewModel.SetState((VoteState)e.Parameter);
+			viewModel.SetState((ConfirmVoteState)e.Parameter);
 
 			base.OnNavigatedTo(e);
 		}

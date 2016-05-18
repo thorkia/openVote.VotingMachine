@@ -46,6 +46,7 @@ namespace openVote.VotingMachine.Booth
 		{
 			nav.Configure("Title", typeof(MainPage));
 			nav.Configure("PlaceVote", typeof(PlaceVotePage));
+			nav.Configure("ConfirmVote", typeof(VoteConfirmationPage));
 		}
 
 		private void RegisterServices()
@@ -53,12 +54,14 @@ namespace openVote.VotingMachine.Booth
 			SimpleIoc.Default.Register<SQLiteConnection>(() => Database.Database.Connection);
 			SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
 			SimpleIoc.Default.Register<BallotRepository>();
+			SimpleIoc.Default.Register<VoteRepository>(true);
 			SimpleIoc.Default.Register<StateManager>(true);
 		}
 
 		private void RegisterViewModels()
 		{			
 			SimpleIoc.Default.Register<PlaceVoteViewModel>();
+			SimpleIoc.Default.Register<ConfirmVoteViewModel>();
 		}
 
 

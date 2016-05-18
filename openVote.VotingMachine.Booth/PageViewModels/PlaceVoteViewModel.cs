@@ -18,10 +18,8 @@ using openVote.VotingMachine.DataAccess.Models;
 
 namespace openVote.VotingMachine.Booth.PageViewModels
 {
-	public class PlaceVoteViewModel : ViewModelBase
+	public class PlaceVoteViewModel : NavigableViewModel<VoteState>
 	{
-		private VoteState _voteState;
-
 		private ObservableCollection<string> _choices = new ObservableCollection<string>();
 		private string _selectedChoice = null;
 		private Ballot _currentBallot;
@@ -41,7 +39,10 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 			}
 			set
 			{
-				Set(() => SelectedChoice, ref _selectedChoice, value);
+				if (_selectedChoice == value) return;
+
+				_selectedChoice = value;
+				RaisePropertyChanged(() => SelectedChoice);
 			}
 		}
 
@@ -53,25 +54,25 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_nextCommand = new RelayCommand(
 									 () =>
 									 {
-										 _voteState.Choice = SelectedChoice;
-										 Messenger.Default.Send<NextEvent>( new NextEvent());										 
+										 _state.Choice = SelectedChoice;
+										 Messenger.Default.Send<NextStateEvent>( new NextStateEvent());										 
 									 }));
 			}
 		}
 
 
-		public void SetCurrentBallot(VoteState voteState)
+		public override void SetState(VoteState state)
 		{
-			_voteState = voteState;
-			_currentBallot = voteState.Ballot;		
-			
+			base.SetState(state);
+
+			_currentBallot = state.Ballot;
+
 			RaisePropertyChanged(() => Title);
 			RaisePropertyChanged(() => Description);
 			SelectedChoice = null;
 
 			Choices.Clear();
-			_currentBallot.Choices.ForEach( c => Choices.Add(c));
-
+			_currentBallot.Choices.ForEach(c => Choices.Add(c));
 		}
 	}
 }

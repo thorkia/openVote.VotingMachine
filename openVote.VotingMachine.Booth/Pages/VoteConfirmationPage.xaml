@@ -1,0 +1,57 @@
+﻿<Page
+    x:Class="openVote.VotingMachine.Booth.Pages.VoteConfirmationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:openVote.VotingMachine.Booth.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.Row="0" 
+               FontSize="40">On the Ballot for</TextBlock>
+    <TextBlock Grid.Row="1" 
+               FontSize="40"
+               FontWeight="Bold"
+               Text="{Binding Title}" />
+
+    <TextBlock Grid.Row="2" 
+               FontSize="40" >You have elected to vote</TextBlock>
+    <TextBlock Grid.Row="3" 
+               FontSize="40"
+               FontWeight="Bold"
+               Text="{Binding Choice}" />
+
+    <Grid Grid.Row="4">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Margin="10"
+                Grid.Column="0">
+        <Button Command="{Binding CancelVoteCommand}">Change Choice</Button>
+      </StackPanel>
+      
+      <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="10"
+                Grid.Column="1">
+        <Button Command="{Binding ConfirmVoteCommand}">Confirm Vote</Button>
+      </StackPanel>
+    </Grid>
+    
+  </Grid>
+</Page>

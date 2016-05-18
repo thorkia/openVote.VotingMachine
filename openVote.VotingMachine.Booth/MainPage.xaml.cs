@@ -21,7 +21,7 @@ namespace openVote.VotingMachine.Booth
 		
 		private void NextNavigationButton(object sender, RoutedEventArgs e)
 		{
-			Messenger.Default.Send<NextEvent>( new NextEvent());
+			Messenger.Default.Send<NextStateEvent>( new NextStateEvent());
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace openVote.VotingMachine.DataAccess.Models
 		[PrimaryKey, AutoIncrement]
 		public int Id { get; set; }
 
-		public int BallotNumber { get; set; }
+		public int BallotId { get; set; }
 
 		public string VoteOption { get; set; }
 

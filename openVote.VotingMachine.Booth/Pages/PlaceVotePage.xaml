@@ -20,7 +20,7 @@
     </StackPanel>
 
     <ListBox ItemsSource="{Binding Choices}"
-             SelectedItem="{Binding SelectedChoice}"
+             SelectedItem="{Binding SelectedChoice, Mode=TwoWay}"
              SelectionMode="Single"             
              Grid.Row="1"
              Margin="5">
