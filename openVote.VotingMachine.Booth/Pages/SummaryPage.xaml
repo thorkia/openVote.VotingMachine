@@ -1,0 +1,81 @@
+﻿<Page
+    x:Class="openVote.VotingMachine.Booth.Pages.SummaryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:openVote.VotingMachine.Booth.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:states="using:openVote.VotingMachine.Booth.States"
+    xmlns:converters="using:openVote.VotingMachine.Booth.Converters"
+    mc:Ignorable="d"
+    Name="PageRoot">
+  
+  <Page.Resources>
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+  </Page.Resources>
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <TextBlock Grid.Row="0" 
+               HorizontalAlignment="Center"
+               FontSize="20">Final Vote Review</TextBlock>
+    
+    <ListBox Grid.Row="1"
+             ManipulationCompleted="ItemsListOnManipulationCompleted"
+             ItemsSource="{Binding Choices}"
+             x:Name="ItemsList">
+      <ListBox.ItemTemplate>
+        <DataTemplate x:DataType="states:VoteSummary">
+          <Border>
+            <Grid>
+              <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+              </Grid.RowDefinitions>
+              <StackPanel Orientation="Horizontal"
+                          Grid.Row="0">
+                <TextBlock>Ballot: </TextBlock>
+                <TextBlock Text="{Binding Ballot}" />
+              </StackPanel>
+
+              <StackPanel Orientation="Horizontal"
+                          Grid.Row="1">
+                <TextBlock>Election: </TextBlock>
+                <TextBlock Text="{Binding Choice}" />
+              </StackPanel>
+            </Grid>
+          </Border>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    <Grid Grid.Row="2"
+          Visibility="{Binding ReviewedAllChoices, ElementName=PageRoot, Converter={StaticResource BoolToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Left"
+                Margin="10"
+                Grid.Column="0">
+        <Button Command="{Binding ResetChoicesCommand}">Cancel and Restart</Button>
+      </StackPanel>
+
+      <StackPanel Orientation="Horizontal"
+                VerticalAlignment="Bottom"
+                HorizontalAlignment="Right"
+                Margin="10"
+                Grid.Column="1">
+        <Button Command="{Binding ConfirmChoicesCommand}">Place Votes</Button>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Page>

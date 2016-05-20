@@ -58,19 +58,19 @@ namespace openVote.VotingMachine.Booth
 		{
 			//Changing state from the title screen
 			//Only valid state is to go to the first ballot
-			if (_currentState.GetType() == typeof (TitleState))
+			if (_currentState.GetType() == typeof(TitleState))
 			{
 				if (_ballots.Count > 0)
 				{
 					return new VoteState(_ballots[_ballotLocation]);
 				}
-				
+
 				//TODO: error state.  For now, the title				
-				return GetStartState();				
+				return GetStartState();
 			}
 
 			//From a vote on a ballot, only place to go is the confirmation screen
-			if (_currentState.GetType() == typeof (VoteState))
+			if (_currentState.GetType() == typeof(VoteState))
 			{
 				var voteState = (VoteState)_currentState as VoteState;
 
@@ -80,23 +80,45 @@ namespace openVote.VotingMachine.Booth
 
 			//From the confirmation screen we can go the the next ballot is the is confirmed
 			//Or back to the vote screen
-			if (_currentState.GetType() == typeof (ConfirmVoteState))
+			if (_currentState.GetType() == typeof(ConfirmVoteState))
 			{
-				var voteState = (ConfirmVoteState)_currentState as ConfirmVoteState;
+				var voteState = (ConfirmVoteState)_currentState;
 
 				//If the vote has been confirmed, move to the next ballot
 				if (voteState.Confirmed)
 				{
 					_votes.Add(CreateVoteFromConfirmation(voteState));
-					_ballotLocation++;					
+					_ballotLocation++;
 				}
 
 				if (_ballotLocation < _ballots.Count)
 				{
 					return new VoteState(_ballots[_ballotLocation]);
 				}
-				
-				//TODO: sammary state - then back to title
+
+				return new SummaryState(_votes, _ballots);
+			}
+
+			if (_currentState.GetType() == typeof(SummaryState))
+			{
+				var summaryState = (SummaryState)_currentState;
+
+				if (summaryState.SummaryAction == SummaryAction.Reset)
+				{
+					_votes.Clear();
+					_ballotLocation = 0;
+					return new VoteState(_ballots[_ballotLocation]);
+				}
+
+				//This is a confirmed state
+				//Save all the votes - then got the summary page
+				//TODO: Have this move to a lock page that won't move until an unlock command is recieved
+				var saved = _votes.TrueForAll(v => _voteRepository.Save(v));
+				if (!saved)
+				{
+					//TODO: Exception handling here
+				}
+
 				return GetStartState();
 			}
 
@@ -105,11 +127,7 @@ namespace openVote.VotingMachine.Booth
 
 		private IState GetStartState()
 		{
-			var saved = _votes.TrueForAll( v => _voteRepository.Save(v));
-			if (!saved)
-			{
-				//TODO: Exception handling here
-			}
+			
 			_votes.Clear();
 			return _initialState;
 		}

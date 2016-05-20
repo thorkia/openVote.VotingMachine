@@ -17,7 +17,7 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0" 
-               FontSize="40">On the Ballot for</TextBlock>
+               FontSize="40">On the ballot for</TextBlock>
     <TextBlock Grid.Row="1" 
                FontSize="40"
                FontWeight="Bold"

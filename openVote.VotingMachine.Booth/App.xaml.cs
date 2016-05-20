@@ -47,6 +47,7 @@ namespace openVote.VotingMachine.Booth
 			nav.Configure("Title", typeof(MainPage));
 			nav.Configure("PlaceVote", typeof(PlaceVotePage));
 			nav.Configure("ConfirmVote", typeof(VoteConfirmationPage));
+			nav.Configure("Summary", typeof(SummaryPage));
 		}
 
 		private void RegisterServices()
@@ -62,6 +63,7 @@ namespace openVote.VotingMachine.Booth
 		{			
 			SimpleIoc.Default.Register<PlaceVoteViewModel>();
 			SimpleIoc.Default.Register<ConfirmVoteViewModel>();
+			SimpleIoc.Default.Register<SummaryPageViewModel>();
 		}
 
 

@@ -16,7 +16,9 @@ namespace openVote.VotingMachine.DataAccess
 
 		public bool Save(Vote vote)
 		{
-			return _connection.InsertOrReplace(vote) > 0;			
+			var i = _connection.Insert(vote);
+			return i > 0;
+			//return _connection.InsertOrReplace(vote) > 0;			
 		}
 	}
 }
