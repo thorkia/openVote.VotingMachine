@@ -31,6 +31,7 @@ namespace openVote.VotingMachine.Booth.Pages
 		{
 			this.InitializeComponent();
 
+			//TODO: Rmove this once the server is ready
 #if DEBUG
 			this.DoubleTapped += (sender, args) =>
 			{
