@@ -112,13 +112,17 @@ namespace openVote.VotingMachine.Booth
 
 				//This is a confirmed state
 				//Save all the votes - then got the summary page
-				//TODO: Have this move to a lock page that won't move until an unlock command is recieved
 				var saved = _votes.TrueForAll(v => _voteRepository.Save(v));
 				if (!saved)
 				{
 					//TODO: Exception handling here
 				}
 
+				return new LockState();
+			}
+
+			if (_currentState.GetType() == typeof (LockState))
+			{
 				return GetStartState();
 			}
 

@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="openVote.VotingMachine.Booth.Pages.LockPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:openVote.VotingMachine.Booth.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Viewbox HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               StretchDirection="Both">
+      <TextBlock HorizontalAlignment="Center"
+                 VerticalAlignment="Center"
+                 FontSize="60">Thank you for voting</TextBlock>
+    </Viewbox>
+  </Grid>
+</Page>

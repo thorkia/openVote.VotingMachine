@@ -103,8 +103,12 @@
     <Compile Include="Database\TestBallotLoader.cs" />
     <Compile Include="Database\SqliteConnection.cs" />
     <Compile Include="Events\NextStateEvent.cs" />
+    <Compile Include="Events\UnlockEvent.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\LockPage.xaml.cs">
+      <DependentUpon>LockPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\PlaceVotePage.xaml.cs">
       <DependentUpon>PlaceVotePage.xaml</DependentUpon>
@@ -116,6 +120,7 @@
       <DependentUpon>VoteConfirmationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageViewModels\ConfirmVoteViewModel.cs" />
+    <Compile Include="PageViewModels\LockPageViewModel.cs" />
     <Compile Include="PageViewModels\NavigableViewModel.cs" />
     <Compile Include="PageViewModels\PlaceVoteViewModel.cs" />
     <Compile Include="PageViewModels\SummaryPageViewModel.cs" />
@@ -123,6 +128,7 @@
     <Compile Include="StateManager.cs" />
     <Compile Include="States\ConfirmVoteState.cs" />
     <Compile Include="States\IState.cs" />
+    <Compile Include="States\LockState.cs" />
     <Compile Include="States\SummaryState.cs" />
     <Compile Include="States\TitleState.cs" />
     <Compile Include="States\VoteState.cs" />
@@ -151,6 +157,10 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\LockPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PlaceVotePage.xaml">
       <SubType>Designer</SubType>
