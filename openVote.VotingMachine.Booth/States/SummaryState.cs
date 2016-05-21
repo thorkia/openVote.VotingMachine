@@ -12,7 +12,7 @@ namespace openVote.VotingMachine.Booth.States
 		public string PageName => "Summary";
 
 		public SummaryAction SummaryAction { get; set; }
-		//TODO: add a list of items here
+		
 		public List<VoteSummary> VoteSummaries { get; }
 
 		public SummaryState(IEnumerable<Vote> votes, IEnumerable<Ballot> ballots)

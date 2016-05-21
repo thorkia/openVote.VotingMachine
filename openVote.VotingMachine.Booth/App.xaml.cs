@@ -96,7 +96,7 @@ namespace openVote.VotingMachine.Booth
 
 				if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
 				{
-					//TODO: Load state from previously suspended application
+					//Loading from previous state is not needed as this will only run on a Pi
 				}
 
 				// Place the frame in the current Window
@@ -138,7 +138,10 @@ namespace openVote.VotingMachine.Booth
 		{
 			var deferral = e.SuspendingOperation.GetDeferral();
 
-			//TODO: Save application state and stop any background activity
+			//Close the connection when the application is being suspended
+			var connection = ServiceLocator.Current.GetInstance<SQLiteConnection>();
+			connection.Close();
+
 			deferral.Complete();
 		}
 	}
