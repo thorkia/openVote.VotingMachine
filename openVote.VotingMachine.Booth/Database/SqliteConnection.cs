@@ -10,6 +10,12 @@ namespace openVote.VotingMachine.Booth.Database
 			get
 			{
 				string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "db.sqlite");
+
+				if (File.Exists(path))
+				{
+					File.Delete(path);
+				}
+
 				return new SQLiteConnection(new SQLite.Net.Platform.WinRT.SQLitePlatformWinRT(), path, true);
 			}
 		}
