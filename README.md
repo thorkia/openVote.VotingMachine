@@ -19,4 +19,13 @@ This project will use the following technologies:
 * SQLite for local storage
 
 
-More details will be added as the project develops.
+### Roadmap:
+
+* Create HTTP server to run on Control Machine
+  * Record all votes
+  * Set unlock command
+  * Support logging
+* Add client request unlock from server
+* Add client request to store vote on server
+* Add in-depth logging to client
+  * Logs should be stored locally and on server
