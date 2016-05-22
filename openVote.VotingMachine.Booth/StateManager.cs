@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
+using Windows.Security.ExchangeActiveSyncProvisioning;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using openVote.VotingMachine.Booth.Events;
@@ -148,13 +150,29 @@ namespace openVote.VotingMachine.Booth
 			vote.RecordedTime = DateTime.Now;
 			vote.VoteOption = state.Choice;
 
-			var hostName = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.DomainName);
-			var ipConnection = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.Ipv4);
+			var eas = new EasClientDeviceInformation();
+			vote.MachineName = eas.FriendlyName;
 
-			vote.MachineName = hostName.RawName;
-			vote.MachineIPAddress = ipConnection.RawName;
-			vote.MachineMACAddress = ipConnection.IPInformation.NetworkAdapter.NetworkAdapterId.ToString();
+			//The machine may not have an active IP or Network Information.
+			try
+			{
+				var ipConnection = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.Ipv4);
 
+				vote.MachineIPAddress = ipConnection.RawName;
+				vote.MachineMACAddress = ipConnection.IPInformation.NetworkAdapter.NetworkAdapterId.ToString();
+			}
+			catch (Exception ex)
+			{
+				string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "errors.log");
+				using (var appender = File.AppendText(path))
+				{
+					appender.WriteLine($"{DateTime.Now}||{ex}");
+				}
+
+				//If no IP or network is active, use the local device ID as the MAC Address
+				vote.MachineMACAddress = eas.Id.ToString();
+			}
+			
 			return vote;
 		}
 	}

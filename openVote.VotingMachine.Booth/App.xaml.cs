@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
@@ -40,6 +41,18 @@ namespace openVote.VotingMachine.Booth
 
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
+
+			Application.Current.UnhandledException += ApplicationUnhandledException;
+		}
+
+		private void ApplicationUnhandledException(object sender, UnhandledExceptionEventArgs e)
+		{
+			//Write to a temp location
+			string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "errors.log");
+			using (var appender = File.AppendText(path))
+			{
+				appender.WriteLine($"{DateTime.Now}||{e.Exception}");
+			}
 		}
 
 		private void RegisterPages(NavigationService nav)
