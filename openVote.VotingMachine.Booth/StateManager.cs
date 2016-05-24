@@ -125,6 +125,7 @@ namespace openVote.VotingMachine.Booth
 
 			if (_currentState.GetType() == typeof (LockState))
 			{
+				_ballotLocation = 0;
 				return GetStartState();
 			}
 
