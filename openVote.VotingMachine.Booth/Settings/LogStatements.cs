@@ -16,5 +16,15 @@ namespace openVote.VotingMachine.Booth.Settings
 		{
 			return $"Navigated {action} page [{page}]";
 		}
+
+		public static string UserClickedButtonLog(string button)
+		{
+			return $"Button [{button}] tapped";
+		}
+
+		public static string ViewModelReceivedStateLog(string state)
+		{
+			return $"ViewModel received state [{state}]";
+		}
 	}
 }

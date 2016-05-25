@@ -19,5 +19,11 @@ namespace openVote.VotingMachine.Booth.States
 		{
 			Ballot = ballot;
 		}
+
+		public string GetLogString()
+		{
+			string ballotString = Ballot != null ? Ballot.ToString() : string.Empty;
+			return $"Ballot={ballotString} | Choice={Choice ?? string.Empty}";
+		}
 	}
 }

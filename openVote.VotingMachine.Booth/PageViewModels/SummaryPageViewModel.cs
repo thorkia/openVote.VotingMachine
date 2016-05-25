@@ -6,7 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using MetroLog;
 using openVote.VotingMachine.Booth.Events;
+using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Booth.States;
 
 namespace openVote.VotingMachine.Booth.PageViewModels
@@ -26,6 +28,7 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_resetChoicesCommand = new RelayCommand(
 									 () =>
 									 {
+										 _logger.Info(LogStatements.UserClickedButtonLog("Cancel and Restart"));
 										 _state.SummaryAction = SummaryAction.Reset;
 										 Messenger.Default.Send<NextStateEvent>(new NextStateEvent());
 									 }));
@@ -40,6 +43,7 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_confirmChoicesCommand = new RelayCommand(
 									 () =>
 									 {
+										 _logger.Info(LogStatements.UserClickedButtonLog("Place Votes"));
 										 _state.SummaryAction = SummaryAction.Confirm;
 										 Messenger.Default.Send<NextStateEvent>(new NextStateEvent());
 									 }));
@@ -47,6 +51,11 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 		}
 
 		public ObservableCollection<VoteSummary> Choices => _summaries;
+
+		public SummaryPageViewModel() : base(LogManagerFactory.DefaultLogManager.GetLogger<SummaryPageViewModel>())
+		{
+
+		}
 
 		public override void SetState(SummaryState state)
 		{

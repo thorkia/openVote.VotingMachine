@@ -9,8 +9,10 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Threading;
 using GalaSoft.MvvmLight.Views;
+using MetroLog;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.Events;
+using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Booth.States;
 using openVote.VotingMachine.DataAccess;
 using openVote.VotingMachine.DataAccess.Api;
@@ -41,6 +43,7 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 			{
 				if (_selectedChoice == value) return;
 
+				_logger.Info($"User selected [{value}]");
 				_selectedChoice = value;
 				RaisePropertyChanged(() => SelectedChoice);
 			}
@@ -54,12 +57,17 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_nextCommand = new RelayCommand(
 									 () =>
 									 {
+										 _logger.Info(LogStatements.UserClickedButtonLog("Next ->"));
 										 _state.Choice = SelectedChoice;
 										 Messenger.Default.Send<NextStateEvent>( new NextStateEvent());										 
 									 }));
 			}
 		}
 
+		public PlaceVoteViewModel() : base(LogManagerFactory.DefaultLogManager.GetLogger<PlaceVoteViewModel>())
+		{
+
+		}
 
 		public override void SetState(VoteState state)
 		{

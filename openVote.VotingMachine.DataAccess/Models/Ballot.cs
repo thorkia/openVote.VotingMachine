@@ -14,5 +14,10 @@ namespace openVote.VotingMachine.DataAccess.Models
 		{
 			Choices = new List<string>();
 		}
+
+		public override string ToString()
+		{
+			return $"{Id} - {Title} - {Description}";
+		}
 	}
 }

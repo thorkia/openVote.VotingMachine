@@ -23,5 +23,10 @@ namespace openVote.VotingMachine.Booth.States
 			Ballot = ballot;
 			Confirmed = false;
 		}
+
+		public string GetLogString()
+		{
+			return $"Ballot={Ballot} | Choice={Choice} | Confirmed={Confirmed}";
+		}
 	}
 }

@@ -39,6 +39,8 @@ namespace openVote.VotingMachine.Booth.Pages
 #if DEBUG
 			this.DoubleTapped += (sender, args) =>
 			{
+				_logger.Trace("Received Unlock Signal");
+				_logger.Trace("Sending Unlock Message");
 				Messenger.Default.Send<UnlockEvent>(new UnlockEvent());
 			};
 #endif

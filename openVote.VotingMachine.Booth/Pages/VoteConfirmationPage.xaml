@@ -41,7 +41,7 @@
                 HorizontalAlignment="Left"
                 Margin="10"
                 Grid.Column="0">
-        <Button Command="{Binding ChangeVoteCommand}">Change Choice</Button>
+        <Button Command="{Binding ChangeVoteCommand}">Change Vote</Button>
       </StackPanel>
       
       <StackPanel Orientation="Horizontal"

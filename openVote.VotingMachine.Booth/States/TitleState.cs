@@ -9,5 +9,10 @@ namespace openVote.VotingMachine.Booth.States
 	public class TitleState : IState
 	{
 		public string PageName => "Title";
+
+		public string GetLogString()
+		{
+			return "TitleState";
+		}
 	}
 }

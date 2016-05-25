@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
+using MetroLog;
 using openVote.VotingMachine.Booth.Events;
+using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Booth.States;
 
 namespace openVote.VotingMachine.Booth.PageViewModels
@@ -32,6 +34,7 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_confirmVoteCommand = new RelayCommand(
 									 () =>
 									 {
+										 _logger.Info(LogStatements.UserClickedButtonLog("Confirm Vote"));
 										 _state.Confirmed = true;
 										 Messenger.Default.Send<NextStateEvent>(new NextStateEvent());
 									 }));
@@ -46,17 +49,23 @@ namespace openVote.VotingMachine.Booth.PageViewModels
 							 ?? (_changeVoteCommand = new RelayCommand(
 									 () =>
 									 {
+										 _logger.Info(LogStatements.UserClickedButtonLog("Change Vote"));
 										 _state.Confirmed = false;
 										 Messenger.Default.Send<NextStateEvent>(new NextStateEvent());
 									 }));
 			}
 		}
 
+		public ConfirmVoteViewModel() : base(LogManagerFactory.DefaultLogManager.GetLogger<ConfirmVoteViewModel>())
+		{
+			
+		}
 
 		public override void SetState(ConfirmVoteState state)
 		{
+			_logger.Trace(LogStatements.ViewModelReceivedStateLog(state.GetLogString()));			
 			base.SetState(state);
-
+			
 			RaisePropertyChanged(() => Title);
 			RaisePropertyChanged(() => Description);
 			RaisePropertyChanged(() => Choice);
