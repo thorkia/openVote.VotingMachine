@@ -12,8 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MetroLog;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.PageViewModels;
+using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Booth.States;
 using openVote.VotingMachine.DataAccess.Models;
 
@@ -26,19 +28,29 @@ namespace openVote.VotingMachine.Booth.Pages
 	/// </summary>
 	public sealed partial class PlaceVotePage : Page
 	{
+		private readonly ILogger _logger = LogManagerFactory.DefaultLogManager.GetLogger<PlaceVotePage>();
+
 		public PlaceVotePage()
 		{
 			this.InitializeComponent();
 		}
 
 		protected override void OnNavigatedTo(NavigationEventArgs e)
-		{			
+		{
+			_logger.Trace(LogStatements.NavigatedLog(LogStatements.NavigatedToAction, "PlaceVotePage"));
+
 			var viewModel = ServiceLocator.Current.GetInstance<PlaceVoteViewModel>();
 			DataContext = viewModel;
 			
 			viewModel.SetState((VoteState)e.Parameter);
 
 			base.OnNavigatedTo(e);
+		}
+
+		protected override void OnNavigatedFrom(NavigationEventArgs e)
+		{
+			_logger.Trace(LogStatements.NavigatedLog(LogStatements.NavigatedFromAction, "PlaceVotePage"));
+			base.OnNavigatedFrom(e);
 		}
 	}
 }

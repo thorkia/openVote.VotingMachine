@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
+using MetroLog;
+using MetroLog.Layouts;
+using MetroLog.Targets;
 using Microsoft.Practices.ServiceLocation;
 using openVote.VotingMachine.Booth.Database;
 using openVote.VotingMachine.Booth.Events;
@@ -24,12 +27,18 @@ namespace openVote.VotingMachine.Booth
 	/// </summary>
 	sealed partial class App : Application
 	{
+		private readonly ILogger logger;
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App()
 		{
+			ConfigureLogger();
+			logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
+
+
+			logger.Trace("Initializing Application");
 			ServiceLocator.SetLocatorProvider( () => SimpleIoc.Default);
 
 			var nav = new NavigationService();
@@ -43,6 +52,8 @@ namespace openVote.VotingMachine.Booth
 			this.Suspending += OnSuspending;
 
 			Application.Current.UnhandledException += ApplicationUnhandledException;
+
+			logger.Trace("Initialization Completed");
 		}
 
 		private void ApplicationUnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -81,6 +92,13 @@ namespace openVote.VotingMachine.Booth
 			SimpleIoc.Default.Register<LockPageViewModel>();
 		}
 
+		private void ConfigureLogger()
+		{
+			GlobalCrashHandler.Configure();
+			var target = new StreamingFileTarget( new SingleLineLayout());
+			target.RetainDays = Int32.MaxValue;
+			LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, target);
+		}
 
 
 		/// <summary>
