@@ -9,6 +9,7 @@ using Windows.Networking.Connectivity;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
+using MetroLog;
 using openVote.VotingMachine.Booth.Events;
 using openVote.VotingMachine.Booth.States;
 using openVote.VotingMachine.DataAccess;
@@ -18,6 +19,7 @@ namespace openVote.VotingMachine.Booth
 {
 	public class StateManager
 	{
+		private readonly ILogger _logger = LogManagerFactory.DefaultLogManager.GetLogger<StateManager>();
 		private readonly INavigationService _navigationService;
 		private readonly VoteRepository _voteRepository;
 
@@ -47,10 +49,16 @@ namespace openVote.VotingMachine.Booth
 
 		private void Next(NextStateEvent param)
 		{
-			var newState = GetNextState() ?? _initialState;
-			//Move state to the next item
+			_logger.Trace($"Navigation message received");
+			_logger.Trace($"Changing state from [{_currentState.GetType().Name}]");
+			_logger.Trace($"Current State [{_currentState}]");
 
+			var newState = GetNextState() ?? _initialState;
+			//Move state to the next item			
 			_currentState = newState;
+
+			_logger.Trace($"State changed to [{_currentState.GetType().Name}]");
+			_logger.Trace($"New State [{_currentState}]");
 
 			NavigateToStatePage();
 		}
@@ -141,6 +149,7 @@ namespace openVote.VotingMachine.Booth
 		
 		private void NavigateToStatePage()
 		{
+			_logger.Trace($"Navigating to Page [{_currentState.PageName}]");
 			_navigationService.NavigateTo(_currentState.PageName, _currentState);
 		}
 
