@@ -169,7 +169,7 @@ namespace openVote.VotingMachine.Booth
 				var ipConnection = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.Ipv4);
 
 				vote.MachineIPAddress = ipConnection.RawName;
-				vote.MachineMACAddress = ipConnection.IPInformation.NetworkAdapter.NetworkAdapterId.ToString();
+				vote.RegisteredMachineId = ipConnection.IPInformation.NetworkAdapter.NetworkAdapterId.ToString();
 			}
 			catch (Exception ex)
 			{
@@ -180,7 +180,7 @@ namespace openVote.VotingMachine.Booth
 				}
 
 				//If no IP or network is active, use the local device ID as the MAC Address
-				vote.MachineMACAddress = eas.Id.ToString();
+				vote.RegisteredMachineId = eas.Id.ToString();
 			}
 			
 			return vote;

@@ -12,10 +12,12 @@ using MetroLog;
 using MetroLog.Layouts;
 using MetroLog.Targets;
 using Microsoft.Practices.ServiceLocation;
+using Newtonsoft.Json;
 using openVote.VotingMachine.Booth.Database;
 using openVote.VotingMachine.Booth.Events;
 using openVote.VotingMachine.Booth.Pages;
 using openVote.VotingMachine.Booth.PageViewModels;
+using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.DataAccess;
 using openVote.VotingMachine.DataAccess.Api;
 using SQLite.Net;
@@ -34,6 +36,9 @@ namespace openVote.VotingMachine.Booth
 		/// </summary>
 		public App()
 		{
+			var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+			SimpleIoc.Default.Register<Config>(() => config);
+
 			ConfigureLogger();
 			logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
 
@@ -45,7 +50,7 @@ namespace openVote.VotingMachine.Booth
 			SimpleIoc.Default.Register<INavigationService>(() => nav);
 
 			RegisterPages(nav);
-			RegisterServices();
+			RegisterServices(config);
 			RegisterViewModels();
 
 			this.InitializeComponent();
@@ -75,10 +80,14 @@ namespace openVote.VotingMachine.Booth
 			nav.Configure("LockScreen", typeof(LockPage));
 		}
 
-		private void RegisterServices()
+		private void RegisterServices(Config config)
 		{
 			SimpleIoc.Default.Register<SQLiteConnection>(() => Database.Database.Connection);
-			SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
+			if (config.BallotServer == "debug")
+			{
+				SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
+			}
+
 			SimpleIoc.Default.Register<BallotRepository>();
 			SimpleIoc.Default.Register<VoteRepository>(true);
 			SimpleIoc.Default.Register<StateManager>(true);

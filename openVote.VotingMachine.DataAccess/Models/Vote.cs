@@ -18,6 +18,6 @@ namespace openVote.VotingMachine.DataAccess.Models
 		//Add machine identifiers
 		public string MachineName { get; set; }
 		public string MachineIPAddress { get; set; }
-		public string MachineMACAddress { get; set; }
+		public string RegisteredMachineId { get; set; }
 	}
 }

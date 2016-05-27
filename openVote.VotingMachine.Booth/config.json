@@ -1,0 +1,8 @@
+﻿{
+    "BallotServer": "debug",
+
+    "LoadBallotPath": "",
+    "SaveBallotPath": "",
+    "RegisterMachinePath": "",
+    "UnlockPath": ""
+}
