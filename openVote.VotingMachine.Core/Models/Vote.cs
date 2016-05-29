@@ -1,7 +1,7 @@
 ﻿using System;
 using SQLite.Net.Attributes;
 
-namespace openVote.VotingMachine.DataAccess.Models
+namespace openVote.VotingMachine.Core.Models
 {
 	public class Vote
 	{
@@ -17,7 +17,11 @@ namespace openVote.VotingMachine.DataAccess.Models
 
 		//Add machine identifiers
 		public string MachineName { get; set; }
+
 		public string MachineIPAddress { get; set; }
-		public string RegisteredMachineId { get; set; }
+
+		public string MachineId { get; set; }
+
+		public string RegisteredMachineName { get; set; }
 	}
 }

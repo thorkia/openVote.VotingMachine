@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using System.Collections.ObjectModel;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Threading;
-using GalaSoft.MvvmLight.Views;
 using MetroLog;
-using Microsoft.Practices.ServiceLocation;
-using openVote.VotingMachine.Booth.Events;
 using openVote.VotingMachine.Booth.Settings;
-using openVote.VotingMachine.Booth.States;
-using openVote.VotingMachine.DataAccess;
-using openVote.VotingMachine.DataAccess.Api;
-using openVote.VotingMachine.DataAccess.Models;
+using openVote.VotingMachine.Core.Events;
+using openVote.VotingMachine.Core.Models;
+using openVote.VotingMachine.Core.States;
 
 namespace openVote.VotingMachine.Booth.PageViewModels
 {

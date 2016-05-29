@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using MetroLog;
 using openVote.VotingMachine.Booth.Settings;
-using openVote.VotingMachine.Booth.States;
+using openVote.VotingMachine.Core.States;
 
 namespace openVote.VotingMachine.Booth.PageViewModels
 {

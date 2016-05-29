@@ -1,9 +1,10 @@
-﻿using openVote.VotingMachine.DataAccess.Models;
+﻿using openVote.VotingMachine.Core.Api;
+using openVote.VotingMachine.Core.Models;
 using SQLite.Net;
 
 namespace openVote.VotingMachine.DataAccess
 {
-	public class VoteRepository
+	public class VoteRepository : IVoteRepository
 	{
 		private readonly SQLiteConnection _connection;
 

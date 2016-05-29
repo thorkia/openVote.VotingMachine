@@ -2,11 +2,9 @@
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Messaging;
-using GalaSoft.MvvmLight.Views;
 using MetroLog;
-using Microsoft.Practices.ServiceLocation;
-using openVote.VotingMachine.Booth.Events;
 using openVote.VotingMachine.Booth.Settings;
+using openVote.VotingMachine.Core.Events;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

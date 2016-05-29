@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace openVote.VotingMachine.DataAccess.Models
+namespace openVote.VotingMachine.Core.Models
 {
 	public class Ballot
 	{

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using openVote.VotingMachine.DataAccess.Api;
-using openVote.VotingMachine.DataAccess.Models;
+﻿using System.Collections.Generic;
+using openVote.VotingMachine.Core.Api;
+using openVote.VotingMachine.Core.Models;
 
 namespace openVote.VotingMachine.Booth.Database
 {

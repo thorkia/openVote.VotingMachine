@@ -4,9 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:openVote.VotingMachine.Booth.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:states="using:openVote.VotingMachine.Booth.States"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"   
     xmlns:converters="using:openVote.VotingMachine.Booth.Converters"
+    xmlns:states="using:openVote.VotingMachine.Core.States"
     mc:Ignorable="d"
     Name="PageRoot">
   

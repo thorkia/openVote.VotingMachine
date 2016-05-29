@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using openVote.VotingMachine.DataAccess.Models;
+using openVote.VotingMachine.Core.Models;
 
-namespace openVote.VotingMachine.Booth.States
+namespace openVote.VotingMachine.Core.States
 {
 	public class SummaryState : IState
 	{

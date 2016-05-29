@@ -1,27 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Windows.Networking;
-using Windows.Networking.Connectivity;
 using Windows.Security.ExchangeActiveSyncProvisioning;
 using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using MetroLog;
-using openVote.VotingMachine.Booth.Events;
-using openVote.VotingMachine.Booth.States;
-using openVote.VotingMachine.DataAccess;
-using openVote.VotingMachine.DataAccess.Models;
+using openVote.VotingMachine.Core.Api;
+using openVote.VotingMachine.Core.Events;
+using openVote.VotingMachine.Core.Models;
+using openVote.VotingMachine.Core.States;
 
-namespace openVote.VotingMachine.Booth
+namespace openVote.VotingMachine.Core
 {
 	public class StateManager
 	{
 		private readonly ILogger _logger = LogManagerFactory.DefaultLogManager.GetLogger<StateManager>();
 		private readonly INavigationService _navigationService;
-		private readonly VoteRepository _voteRepository;
+		private readonly IVoteRepository _voteRepository;
+		private readonly Controller _controller;
 
 		private readonly IState _initialState;
 		private IState _currentState;
@@ -31,10 +27,11 @@ namespace openVote.VotingMachine.Booth
 
 		private readonly List<Vote> _votes;
 
-		public StateManager(INavigationService navigationService, BallotRepository ballotRepository, VoteRepository voteRepository)
+		public StateManager(INavigationService navigationService, Controller controller, IVoteRepository voteRepository)
 		{
+			_controller = controller;
 			_voteRepository = voteRepository;
-			_ballots = ballotRepository.Ballots.ToList();
+			_ballots = controller.Ballots.ToList();
 
 			_initialState = new TitleState();
 			_currentState = _initialState;
@@ -160,28 +157,13 @@ namespace openVote.VotingMachine.Booth
 			vote.RecordedTime = DateTime.Now;
 			vote.VoteOption = state.Choice;
 
+
+			vote.MachineId = _controller.MachineId;
+			vote.MachineIPAddress = _controller.MachineIP;			
+			vote.RegisteredMachineName = _controller.MachineId;
+
 			var eas = new EasClientDeviceInformation();
 			vote.MachineName = eas.FriendlyName;
-
-			//The machine may not have an active IP or Network Information.
-			try
-			{
-				var ipConnection = NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.Ipv4);
-
-				vote.MachineIPAddress = ipConnection.RawName;
-				vote.RegisteredMachineId = ipConnection.IPInformation.NetworkAdapter.NetworkAdapterId.ToString();
-			}
-			catch (Exception ex)
-			{
-				string path = Path.Combine(Windows.Storage.ApplicationData.Current.LocalFolder.Path, "errors.log");
-				using (var appender = File.AppendText(path))
-				{
-					appender.WriteLine($"{DateTime.Now}||{ex}");
-				}
-
-				//If no IP or network is active, use the local device ID as the MAC Address
-				vote.RegisteredMachineId = eas.Id.ToString();
-			}
 			
 			return vote;
 		}

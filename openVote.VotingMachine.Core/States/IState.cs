@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace openVote.VotingMachine.Booth.States
+﻿namespace openVote.VotingMachine.Core.States
 {
 	public interface IState
 	{
