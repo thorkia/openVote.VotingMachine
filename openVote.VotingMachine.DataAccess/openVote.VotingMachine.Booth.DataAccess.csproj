@@ -7,8 +7,8 @@
     <ProjectGuid>{34391E45-A166-44C3-97AC-A6DE0F86E97D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>openVote.VotingMachine.DataAccess</RootNamespace>
-    <AssemblyName>openVote.VotingMachine.DataAccess</AssemblyName>
+    <RootNamespace>openVote.VotingMachine.Booth.DataAccess</RootNamespace>
+    <AssemblyName>openVote.VotingMachine.Booth.DataAccess</AssemblyName>
     <DefaultLanguage>en-CA</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>

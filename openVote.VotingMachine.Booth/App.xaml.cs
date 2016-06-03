@@ -13,6 +13,7 @@ using MetroLog.Layouts;
 using MetroLog.Targets;
 using Microsoft.Practices.ServiceLocation;
 using Newtonsoft.Json;
+using openVote.VotingMachine.Booth.DataAccess;
 using openVote.VotingMachine.Booth.Database;
 using openVote.VotingMachine.Booth.Pages;
 using openVote.VotingMachine.Booth.PageViewModels;
@@ -20,7 +21,6 @@ using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Core;
 using openVote.VotingMachine.Core.Api;
 using openVote.VotingMachine.Core.Models;
-using openVote.VotingMachine.DataAccess;
 using SQLite.Net;
 
 namespace openVote.VotingMachine.Booth
@@ -37,16 +37,15 @@ namespace openVote.VotingMachine.Booth
 		/// </summary>
 		public App()
 		{
-			var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-			SimpleIoc.Default.Register<IConfig>(() => config);
-
 			ConfigureLogger();
 			logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
 
-
 			logger.Trace("Initializing Application");
-			ServiceLocator.SetLocatorProvider( () => SimpleIoc.Default);
+			ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
+			var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
+			SimpleIoc.Default.Register<IConfig>(() => config);
+			
 			var nav = new NavigationService();
 			SimpleIoc.Default.Register<INavigationService>(() => nav);
 

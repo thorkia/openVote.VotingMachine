@@ -2,7 +2,7 @@
 using openVote.VotingMachine.Core.Models;
 using SQLite.Net;
 
-namespace openVote.VotingMachine.DataAccess
+namespace openVote.VotingMachine.Booth.DataAccess
 {
 	public class VoteRepository : IVoteRepository
 	{

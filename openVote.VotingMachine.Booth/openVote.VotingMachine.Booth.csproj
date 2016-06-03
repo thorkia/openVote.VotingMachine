@@ -189,9 +189,9 @@
       <Project>{EE8DE8B8-1A82-4F3E-9136-E868C0651229}</Project>
       <Name>openVote.VotingMachine.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\openVote.VotingMachine.DataAccess\openVote.VotingMachine.DataAccess.csproj">
+    <ProjectReference Include="..\openVote.VotingMachine.DataAccess\openVote.VotingMachine.Booth.DataAccess.csproj">
       <Project>{34391E45-A166-44C3-97AC-A6DE0F86E97D}</Project>
-      <Name>openVote.VotingMachine.DataAccess</Name>
+      <Name>openVote.VotingMachine.Booth.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

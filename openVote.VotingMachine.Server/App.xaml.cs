@@ -14,7 +14,17 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using GalaSoft.MvvmLight.Ioc;
+using MetroLog;
+using MetroLog.Layouts;
+using MetroLog.Targets;
+using Microsoft.Practices.ServiceLocation;
+using openVote.VotingMachine.Core;
+using openVote.VotingMachine.Core.Api;
+using openVote.VotingMachine.Core.Models;
+using openVote.VotingMachine.Server.DataAccess;
 using openVote.VotingMachine.Server.Server;
+using SQLite.Net;
 
 namespace openVote.VotingMachine.Server
 {
@@ -23,14 +33,26 @@ namespace openVote.VotingMachine.Server
 	/// </summary>
 	sealed partial class App : Application
 	{
-		private WebServer _server;
+		private readonly ILogger logger;
+		private readonly WebServer _server;
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
 		/// </summary>
 		public App()
 		{
+			ConfigureLogger();
+			logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
+
+			logger.Trace("Initializing Application");
+			ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
+
+
+			RegisterServices();
+
+			logger.Trace("Starting Server");
 			_server = new WebServer();
+
 
 			this.InitializeComponent();
 			this.Suspending += OnSuspending;
@@ -110,6 +132,21 @@ namespace openVote.VotingMachine.Server
 			_server.StopServer();
 
 			deferral.Complete();
+		}
+
+
+		private void ConfigureLogger()
+		{
+			GlobalCrashHandler.Configure();
+			var target = new StreamingFileTarget(new SingleLineLayout());
+			target.RetainDays = Int32.MaxValue;
+			LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, target);
+		}
+
+		private void RegisterServices()
+		{
+			SimpleIoc.Default.Register<SQLiteConnection>(() => Database.Database.Connection);
+			SimpleIoc.Default.Register<RegisteredMachineRepository>(() => new RegisteredMachineRepository(ServiceLocator.Current.GetInstance<SQLiteConnection>()));			
 		}
 	}
 }

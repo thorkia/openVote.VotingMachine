@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Devkoes.Restup.WebServer.Http;
 using Devkoes.Restup.WebServer.Rest;
 using openVote.VotingMachine.Server.Server.Controllers;
@@ -19,7 +21,7 @@ namespace openVote.VotingMachine.Server.Server
 			var registerRouterHandler = new RestRouteHandler();
 			registerRouterHandler.RegisterController<RegisterMachineController>();
 
-			_server.RegisterRoute("/api/register", registerRouterHandler);			
+			_server.RegisterRoute("api", registerRouterHandler);
 		}
 
 		public async void StartServer()

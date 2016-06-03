@@ -116,6 +116,7 @@
     <Compile Include="Events\UnlockEvent.cs" />
     <Compile Include="Models\Ballot.cs" />
     <Compile Include="Models\Config.cs" />
+    <Compile Include="WebApi\Requests\RegisterMachineRequest.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateManager.cs" />
