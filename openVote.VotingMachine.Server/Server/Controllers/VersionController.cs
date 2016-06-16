@@ -15,6 +15,7 @@ namespace openVote.VotingMachine.Server.Server.Controllers
 		public IGetResponse SupportedVersion(string version)
 		{
 			//TODO: Add code to check client version against support versions
+			//TODO: Add code to return the API endpoints for Register, GetBallots, Vote, Status (This is where it returns voting in progress), and Unlock
 			return new GetResponse(GetResponse.ResponseStatus.OK, new { ApiVersion = "vAlpha"});
 		}
 	}

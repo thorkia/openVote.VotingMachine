@@ -114,8 +114,9 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 
 			var success = VoteRepository.Save(serverVote);
 
+			//TODO: add code to set the lock for this machine - this will update the UI, which will not unlock until clicked by a controller
 			return success ? 
-				new PostResponse(PostResponse.ResponseStatus.Created, "", new {ID = serverVote.Id}) 
+				new PostResponse(PostResponse.ResponseStatus.Created, "", new {ID = serverVote.Id, SetLock = true}) 
 				: new PostResponse(PostResponse.ResponseStatus.Conflict, "", new { ID = -1, Error = "Unable to save vote, please try again" });
 		}
 	}
