@@ -107,15 +107,14 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BaseSqlRepository.cs" />
     <Compile Include="Api\IBallotLoader.cs" />
-    <Compile Include="Api\IConfig.cs" />
     <Compile Include="Api\IController.cs" />
-    <Compile Include="Api\IVoteRepository.cs" />
+    <Compile Include="Api\IRepository.cs" />
     <Compile Include="Controller.cs" />
     <Compile Include="Events\NextStateEvent.cs" />
     <Compile Include="Events\UnlockEvent.cs" />
     <Compile Include="Models\Ballot.cs" />
-    <Compile Include="Models\Config.cs" />
     <Compile Include="WebApi\Requests\RegisterMachineRequest.cs" />
     <Compile Include="Models\Vote.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Ballots>
+  <Ballot Id="1">
+    <Title><![CDATA[You're vote here]]></Title>
+    <Description><![CDATA[This can contain any thing, including excessive white space and enters
+    
+    See?]]></Description>
+    <Choices>
+      <Choice><![CDATA[First]]></Choice>
+      <Choice><![CDATA[Second]]></Choice>
+      <Choice><![CDATA[Third]]></Choice>
+      <Choice><![CDATA[Fourth]]></Choice>
+    </Choices>
+  </Ballot>
+</Ballots>

@@ -16,7 +16,7 @@ namespace openVote.VotingMachine.Core
 	{
 		private readonly ILogger _logger = LogManagerFactory.DefaultLogManager.GetLogger<StateManager>();
 		private readonly INavigationService _navigationService;
-		private readonly IVoteRepository _voteRepository;
+		private readonly BaseSqlRepository<Vote> _voteRepository;
 		private readonly Controller _controller;
 
 		private readonly IState _initialState;
@@ -27,7 +27,7 @@ namespace openVote.VotingMachine.Core
 
 		private readonly List<Vote> _votes;
 
-		public StateManager(INavigationService navigationService, Controller controller, IVoteRepository voteRepository)
+		public StateManager(INavigationService navigationService, Controller controller, BaseSqlRepository<Vote> voteRepository)
 		{
 			_controller = controller;
 			_voteRepository = voteRepository;
@@ -160,7 +160,7 @@ namespace openVote.VotingMachine.Core
 
 			vote.MachineId = _controller.MachineId;
 			vote.MachineIPAddress = _controller.MachineIP;			
-			vote.RegisteredMachineName = _controller.MachineId;
+			vote.ServerRegsiteredMachinedId = _controller.MachineId;
 
 			var eas = new EasClientDeviceInformation();
 			vote.MachineName = eas.FriendlyName;

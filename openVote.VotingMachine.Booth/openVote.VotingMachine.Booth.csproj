@@ -93,9 +93,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Content Include="config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <None Include="openVote.VotingMachine.Booth_TemporaryKey.pfx" />
     <None Include="project.json" />
   </ItemGroup>

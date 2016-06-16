@@ -22,6 +22,7 @@ namespace openVote.VotingMachine.Core.Models
 
 		public string MachineId { get; set; }
 
-		public string RegisteredMachineName { get; set; }
+		//This is the registered MachineId Generated from the registration
+		public string ServerRegsiteredMachinedId { get; set; }
 	}
 }

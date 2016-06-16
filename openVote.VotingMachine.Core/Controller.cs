@@ -11,7 +11,6 @@ namespace openVote.VotingMachine.Core
 	public class Controller : IController
 	{
 		private readonly IBallotLoader _ballotLoader;
-		private readonly IConfig _config;
 
 		private List<Ballot> _ballots;
 		private bool IsNetworkAcitve => NetworkInformation.GetHostNames().FirstOrDefault(h => h.Type == HostNameType.Ipv4) != null;
@@ -35,13 +34,11 @@ namespace openVote.VotingMachine.Core
 		}
 
 
-		public Controller(IConfig config, IBallotLoader ballotLoader)
+		public Controller(IBallotLoader ballotLoader)
 		{
 			_ballotLoader = ballotLoader;
-			_config = config;
 
 			RegisterMachine();
-
 		}
 
 		private void RegisterMachine()

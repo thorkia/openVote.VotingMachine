@@ -43,14 +43,11 @@ namespace openVote.VotingMachine.Booth
 			logger.Trace("Initializing Application");
 			ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-			var config = JsonConvert.DeserializeObject<Config>(File.ReadAllText("config.json"));
-			SimpleIoc.Default.Register<IConfig>(() => config);
-			
 			var nav = new NavigationService();
 			SimpleIoc.Default.Register<INavigationService>(() => nav);
 
 			RegisterPages(nav);
-			RegisterServices(config);
+			RegisterServices();
 			RegisterViewModels();
 
 			this.InitializeComponent();
@@ -80,20 +77,15 @@ namespace openVote.VotingMachine.Booth
 			nav.Configure("LockScreen", typeof(LockPage));
 		}
 
-		private void RegisterServices(Config config)
+		private void RegisterServices()
 		{
 			SimpleIoc.Default.Register<SQLiteConnection>(() => Database.Database.Connection);
-			SimpleIoc.Default.Register<IVoteRepository>( () => new VoteRepository(ServiceLocator.Current.GetInstance<SQLiteConnection>()));
+			SimpleIoc.Default.Register<VoteRepository>( () => new VoteRepository(ServiceLocator.Current.GetInstance<SQLiteConnection>()));
 
-			if (config.BallotServer == "debug")
-			{
-				SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
-			}
+			//TODO: add code to check if this is debug, or if there is a server - add config to direct to the server - app.config?
+			SimpleIoc.Default.Register<IBallotLoader>(() => new TestBallotLoader());
 			
-			SimpleIoc.Default.Register<Controller>(() =>
-			{
-				return new Controller(ServiceLocator.Current.GetInstance<IConfig>(), ServiceLocator.Current.GetInstance<IBallotLoader>());
-			}, true);
+			SimpleIoc.Default.Register<Controller>(() => new Controller(ServiceLocator.Current.GetInstance<IBallotLoader>()), true);
 
 			
 			SimpleIoc.Default.Register<StateManager>(true);

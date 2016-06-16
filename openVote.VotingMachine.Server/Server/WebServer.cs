@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Devkoes.Restup.WebServer.Http;
 using Devkoes.Restup.WebServer.Rest;
 using openVote.VotingMachine.Server.Server.Controllers;
+using openVote.VotingMachine.Server.Server.Controllers.vAlpha;
 
 namespace openVote.VotingMachine.Server.Server
 {
@@ -18,10 +19,14 @@ namespace openVote.VotingMachine.Server.Server
 		{
 			_server = new HttpServer(8081);
 
-			var registerRouterHandler = new RestRouteHandler();
-			registerRouterHandler.RegisterController<RegisterMachineController>();
+			var versionRouteHandler = new RestRouteHandler();
+			versionRouteHandler.RegisterController<VersionController>();
+			_server.RegisterRoute("version", versionRouteHandler);
 
-			_server.RegisterRoute("api", registerRouterHandler);
+
+			var alphaRouterHandler = new RestRouteHandler();
+			alphaRouterHandler.RegisterController<AlphaController>();
+			_server.RegisterRoute("vAlpha", alphaRouterHandler);
 		}
 
 		public async void StartServer()
@@ -32,6 +37,6 @@ namespace openVote.VotingMachine.Server.Server
 		public void StopServer()
 		{
 			_server.StopServer();
-		}
+		}		
 	}
 }
