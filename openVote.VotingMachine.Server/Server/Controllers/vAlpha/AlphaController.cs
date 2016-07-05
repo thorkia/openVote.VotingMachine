@@ -19,6 +19,7 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 		private static RegisteredMachineRepository _registerRepository;
 		private static BallotRepository _ballotRepository;
 		private static VoteRepository _voteRepository;
+		private static LockRepository _lockRepository;
 
 		private RegisteredMachineRepository RegisterRepository
 		{
@@ -47,6 +48,14 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 			}
 		}
 
+		private LockRepository LockRepository
+		{
+			get
+			{
+				return _lockRepository
+							 ?? (_lockRepository = ServiceLocator.Current.GetInstance<LockRepository>());
+			}
+		}
 
 		[UriFormat("/register")]
 		public IPostResponse PostRegisterMachine([FromContent]RegisterMachineRequest request)
@@ -114,10 +123,24 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 
 			var success = VoteRepository.Save(serverVote);
 
-			//TODO: add code to set the lock for this machine - this will update the UI, which will not unlock until clicked by a controller
+			//TODO: raise this as a message so that the UI can update
+			if (success)
+			{
+				_lockRepository.SetState(vote.ServerRegsiteredMachinedId, true);
+			}
+
+
 			return success ? 
 				new PostResponse(PostResponse.ResponseStatus.Created, "", new {ID = serverVote.Id, SetLock = true}) 
 				: new PostResponse(PostResponse.ResponseStatus.Conflict, "", new { ID = -1, Error = "Unable to save vote, please try again" });
+		}
+
+		[UriFormat("/status/{machineId}")]
+		public IGetResponse GetState(string machineId)
+		{
+			var locked = _lockRepository.GetState(machineId);
+
+			return new GetResponse(GetResponse.ResponseStatus.OK, new { Status = locked ? "Locked" : "Open" });
 		}
 	}
 }

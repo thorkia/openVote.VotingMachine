@@ -14,7 +14,7 @@ namespace openVote.VotingMachine.Server.DataAccess
 		private readonly SQLiteConnection _connection;
 
 		public VoteRepository(SQLiteConnection connection) : base(connection)
-		{			
-		}		
+		{
+		}
 	}
 }
