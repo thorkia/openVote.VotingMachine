@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Devkoes.Restup.WebServer.Attributes;
 using Devkoes.Restup.WebServer.Models.Schemas;
@@ -100,6 +101,7 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 		[UriFormat("/ballots")]
 		public IGetResponse GetBallots()
 		{
+			_logger.Trace("Request to Get Ballots");
 			var ballots = BallotRepository.Ballots;
 
 			return new GetResponse(GetResponse.ResponseStatus.OK, ballots);
@@ -108,6 +110,7 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 		[UriFormat("/vote")]
 		public IPostResponse PlaceVote([FromContent]Vote vote)
 		{
+			_logger.Trace($"Request to register {vote.GetLogString()}");
 			var serverVote = new ServerRecordedVote()
 			{
 				ClientId = vote.Id,
@@ -123,10 +126,9 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 
 			var success = VoteRepository.Save(serverVote);
 
-			//TODO: raise this as a message so that the UI can update
 			if (success)
 			{
-				_lockRepository.SetState(vote.ServerRegsiteredMachinedId, true);
+				_logger.Trace($"Vote recorded with vote ID {serverVote.Id}");				
 			}
 
 
@@ -135,10 +137,28 @@ namespace openVote.VotingMachine.Server.Server.Controllers.vAlpha
 				: new PostResponse(PostResponse.ResponseStatus.Conflict, "", new { ID = -1, Error = "Unable to save vote, please try again" });
 		}
 
+		[UriFormat("/lock/{machineId}")]
+		public IGetResponse LockMachine(string machineId)
+		{
+			_logger.Trace($"Request to lock Machine {machineId}");
+
+			var success = LockRepository.SetState(machineId, true);
+
+			if (success)
+			{
+				_logger.Trace($"Machine {machineId} locked");
+			}
+
+			//TODO: raise this as a message so that the UI can update
+			
+			return success ? new GetResponse(GetResponse.ResponseStatus.OK) :
+				new GetResponse(GetResponse.ResponseStatus.NotFound);
+		}
+
 		[UriFormat("/status/{machineId}")]
 		public IGetResponse GetState(string machineId)
 		{
-			var locked = _lockRepository.GetState(machineId);
+			var locked = LockRepository.GetState(machineId);
 
 			return new GetResponse(GetResponse.ResponseStatus.OK, new { Status = locked ? "Locked" : "Open" });
 		}

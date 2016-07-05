@@ -24,5 +24,10 @@ namespace openVote.VotingMachine.Core.Models
 
 		//This is the registered MachineId Generated from the registration
 		public string ServerRegsiteredMachinedId { get; set; }
+
+		public string GetLogString()
+		{
+			return $"BallotId={BallotId} | VoteOption={VoteOption} | RecordedTime={RecordedTime} | MachineName={MachineName} | MachineIPAddress={MachineIPAddress} | MachineId={MachineId} | ServerRegsiteredMachinedId={ServerRegsiteredMachinedId}";
+		}
 	}
 }

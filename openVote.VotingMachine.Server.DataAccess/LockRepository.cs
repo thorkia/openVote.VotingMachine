@@ -17,17 +17,17 @@ namespace openVote.VotingMachine.Server.DataAccess
 		{
 		}
 
-		public bool SetState(string machineId, bool state)
+		public bool SetState(string machineId, bool locked)
 		{
 			//Get the current item
 			var lockState = GetQuery().FirstOrDefault(lm => lm.MachineId == machineId);
 
 			if (lockState == null)
 			{
-				return Save(new LockModel() {Locked = state, MachineId = machineId});
+				return Save(new LockModel() {Locked = locked, MachineId = machineId});
 			}
 
-			lockState.Locked = state;
+			lockState.Locked = locked;
 
 			return _connection.Update(lockState) > 0;
 		}
