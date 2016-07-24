@@ -6,21 +6,17 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using GalaSoft.MvvmLight.Ioc;
-using GalaSoft.MvvmLight.Messaging;
 using GalaSoft.MvvmLight.Views;
 using MetroLog;
 using MetroLog.Layouts;
 using MetroLog.Targets;
 using Microsoft.Practices.ServiceLocation;
-using Newtonsoft.Json;
 using openVote.VotingMachine.Booth.DataAccess;
 using openVote.VotingMachine.Booth.Database;
 using openVote.VotingMachine.Booth.Pages;
 using openVote.VotingMachine.Booth.PageViewModels;
-using openVote.VotingMachine.Booth.Settings;
 using openVote.VotingMachine.Core;
 using openVote.VotingMachine.Core.Api;
-using openVote.VotingMachine.Core.Models;
 using SQLite.Net;
 
 namespace openVote.VotingMachine.Booth
@@ -30,7 +26,6 @@ namespace openVote.VotingMachine.Booth
 	/// </summary>
 	sealed partial class App : Application
 	{
-		private readonly ILogger logger;
 		/// <summary>
 		/// Initializes the singleton application object.  This is the first line of authored code
 		/// executed, and as such is the logical equivalent of main() or WinMain().
@@ -38,7 +33,7 @@ namespace openVote.VotingMachine.Booth
 		public App()
 		{
 			ConfigureLogger();
-			logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
+			var logger = LogManagerFactory.DefaultLogManager.GetLogger<App>();
 
 			logger.Trace("Initializing Application");
 			ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
@@ -50,10 +45,10 @@ namespace openVote.VotingMachine.Booth
 			RegisterServices();
 			RegisterViewModels();
 
-			this.InitializeComponent();
-			this.Suspending += OnSuspending;
+			InitializeComponent();
+			Suspending += OnSuspending;
 
-			Application.Current.UnhandledException += ApplicationUnhandledException;
+			Current.UnhandledException += ApplicationUnhandledException;
 
 			logger.Trace("Initialization Completed");
 		}
@@ -102,8 +97,10 @@ namespace openVote.VotingMachine.Booth
 		private void ConfigureLogger()
 		{
 			GlobalCrashHandler.Configure();
-			var target = new StreamingFileTarget( new SingleLineLayout());
-			target.RetainDays = Int32.MaxValue;
+			var target = new StreamingFileTarget(new SingleLineLayout())
+			{
+				RetainDays = int.MaxValue
+			};
 			LogManagerFactory.DefaultConfiguration.AddTarget(LogLevel.Trace, LogLevel.Fatal, target);
 		}
 
@@ -118,7 +115,7 @@ namespace openVote.VotingMachine.Booth
 #if DEBUG
 			if (System.Diagnostics.Debugger.IsAttached)
 			{
-				this.DebugSettings.EnableFrameRateCounter = true;
+				DebugSettings.EnableFrameRateCounter = true;
 			}
 #endif
 			Frame rootFrame = Window.Current.Content as Frame;

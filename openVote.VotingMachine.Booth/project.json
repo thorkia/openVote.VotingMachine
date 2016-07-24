@@ -1,9 +1,9 @@
 ﻿{
   "dependencies": {
     "metrolog": "1.0.1",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2",
     "MvvmLightLibs": "5.3.0",
-    "Newtonsoft.Json": "8.0.4-beta1",
+    "Newtonsoft.Json": "9.0.1",
     "SQLite.Net-PCL": "3.1.1",
     "SQLite.Net.Core-PCL": "3.1.1"
   },

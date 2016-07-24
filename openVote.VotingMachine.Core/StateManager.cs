@@ -79,7 +79,7 @@ namespace openVote.VotingMachine.Core
 			//From a vote on a ballot, only place to go is the confirmation screen
 			if (_currentState.GetType() == typeof(VoteState))
 			{
-				var voteState = (VoteState)_currentState as VoteState;
+				var voteState = (VoteState)_currentState;
 
 				return new ConfirmVoteState(voteState.Ballot) { Choice = voteState.Choice };
 			}
